@@ -56,8 +56,8 @@ class PixelCalculatorApp:
     def __init__(self, root: tk.Tk) -> None:
         self.root = root
         self.root.title(f"{APP_TITLE}  |  v{APP_VERSION}")
-        self.root.geometry("760x650")
-        self.root.minsize(680, 600)
+        self.root.geometry("800x760")
+        self.root.minsize(720, 700)
         self.root.configure(bg="#f3f5f8")
 
         self.source_ratio = tk.StringVar(value="16:9")
@@ -180,8 +180,20 @@ class PixelCalculatorApp:
         result_card.pack(fill="both", expand=True)
         ttk.Label(result_card, text="3. Calculation result", style="Section.TLabel").pack(anchor="w")
 
+        # Keep the action buttons near the top of the result panel so they
+        # remain visible even on shorter displays.
+        buttons = ttk.Frame(result_card, style="Card.TFrame")
+        buttons.pack(fill="x", pady=(12, 8))
+        ttk.Button(buttons, text="Calculate", style="Accent.TButton", command=self.calculate).pack(
+            side="left"
+        )
+        ttk.Button(buttons, text="Copy resolution", command=self.copy_result).pack(
+            side="left", padx=(8, 0)
+        )
+        ttk.Button(buttons, text="Reset", command=self.reset).pack(side="right")
+
         stats = ttk.Frame(result_card, style="Card.TFrame")
-        stats.pack(fill="x", pady=(15, 10))
+        stats.pack(fill="x", pady=(8, 10))
         self.pixel_value = ttk.Label(stats, text="—", style="Value.TLabel")
         self.pixel_value.grid(row=0, column=0, sticky="w")
         ttk.Label(stats, text="Total source pixels", style="Card.TLabel").grid(row=1, column=0, sticky="w")
@@ -201,22 +213,15 @@ class PixelCalculatorApp:
         )
         self.status_value.pack(anchor="w", pady=(5, 0))
 
-        buttons = ttk.Frame(result_card, style="Card.TFrame")
-        buttons.pack(fill="x", pady=(18, 0))
-        ttk.Button(buttons, text="Calculate", style="Accent.TButton", command=self.calculate).pack(
-            side="left"
-        )
-        ttk.Button(buttons, text="Copy resolution", command=self.copy_result).pack(
-            side="left", padx=(8, 0)
-        )
-        ttk.Button(buttons, text="Reset", command=self.reset).pack(side="right")
-
         footer = ttk.Label(
             outer, text="Works offline • No image files are uploaded or modified",
             style="Subtitle.TLabel"
         )
         footer.pack(anchor="center", pady=(12, 0))
 
+        self.width_entry.bind("<KeyRelease>", lambda _event: self.calculate())
+        self.height_entry.bind("<KeyRelease>", lambda _event: self.calculate())
+        self.custom_ratio_entry.bind("<KeyRelease>", lambda _event: self.calculate())
         self.width_entry.bind("<Return>", lambda _event: self.calculate())
         self.height_entry.bind("<Return>", lambda _event: self.calculate())
         self.custom_ratio_entry.bind("<Return>", lambda _event: self.calculate())
