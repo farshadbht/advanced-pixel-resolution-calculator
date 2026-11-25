@@ -133,7 +133,8 @@ class PixelCalculatorApp:
         self.width_entry.grid(row=1, column=0, sticky="ew")
         self.height_entry = ttk.Entry(dimensions, textvariable=self.source_height, width=10)
         self.height_entry.grid(row=1, column=1, sticky="ew", padx=(10, 0))
-        dimensions.columnconfigure((0, 1), weight=1)
+        dimensions.columnconfigure(0, weight=1)
+        dimensions.columnconfigure(1, weight=1)
 
         self.source_ratio_note = ttk.Label(
             source_card, text="Choose a preset or enter your own width and height.",
@@ -162,7 +163,9 @@ class PixelCalculatorApp:
             target_card, textvariable=self.custom_target_ratio, width=16, state="disabled"
         )
         self.custom_ratio_entry.grid(row=2, column=1, sticky="ew")
-        target_card.columnconfigure((0, 1, 2), weight=1)
+        target_card.columnconfigure(0, weight=1)
+        target_card.columnconfigure(1, weight=1)
+        target_card.columnconfigure(2, weight=1)
 
         options = ttk.Frame(target_card, style="Card.TFrame")
         options.grid(row=3, column=0, columnspan=3, sticky="w", pady=(12, 0))
