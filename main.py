@@ -125,16 +125,13 @@ class PixelCalculatorApp:
         self.preset_combo.grid(row=2, column=1, sticky="ew", padx=(0, 12))
         self.preset_combo.bind("<<ComboboxSelected>>", self._select_source_preset)
 
-        dimensions = ttk.Frame(source_card, style="Card.TFrame")
-        dimensions.grid(row=2, column=2, columnspan=2, sticky="ew")
-        ttk.Label(dimensions, text="Width", style="Card.TLabel").grid(row=0, column=0, sticky="w")
-        ttk.Label(dimensions, text="Height", style="Card.TLabel").grid(row=0, column=1, sticky="w", padx=(10, 0))
-        self.width_entry = ttk.Entry(dimensions, textvariable=self.source_width, width=10)
-        self.width_entry.grid(row=1, column=0, sticky="ew")
-        self.height_entry = ttk.Entry(dimensions, textvariable=self.source_height, width=10)
-        self.height_entry.grid(row=1, column=1, sticky="ew", padx=(10, 0))
-        dimensions.columnconfigure(0, weight=1)
-        dimensions.columnconfigure(1, weight=1)
+        ttk.Label(source_card, text="Width", style="Card.TLabel").grid(row=1, column=2, sticky="w")
+        self.width_entry = ttk.Entry(source_card, textvariable=self.source_width, width=10)
+        self.width_entry.grid(row=2, column=2, sticky="ew", padx=(0, 12))
+
+        ttk.Label(source_card, text="Height", style="Card.TLabel").grid(row=1, column=3, sticky="w")
+        self.height_entry = ttk.Entry(source_card, textvariable=self.source_height, width=10)
+        self.height_entry.grid(row=2, column=3, sticky="ew")
 
         self.source_ratio_note = ttk.Label(
             source_card, text="Choose a preset or enter your own width and height.",
