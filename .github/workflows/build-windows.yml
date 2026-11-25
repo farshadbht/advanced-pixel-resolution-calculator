@@ -1,0 +1,39 @@
+name: Build Windows executable
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "main.py"
+      - ".github/workflows/build-windows.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install build tool on GitHub runner
+        run: python -m pip install --upgrade pyinstaller
+
+      - name: Build application
+        run: python -m PyInstaller --noconfirm --clean --onefile --windowed --name "Advanced Pixel Resolution Calculator" main.py
+
+      - name: Upload executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: Advanced-Pixel-Resolution-Calculator-Windows
+          path: dist/Advanced Pixel Resolution Calculator.exe
+          if-no-files-found: error
+          retention-days: 30
